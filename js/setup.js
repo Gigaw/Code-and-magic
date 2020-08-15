@@ -56,6 +56,7 @@ for(var i = 0; i < similarWizardsNumber; i++){
 var setup = document.querySelector('.setup');
 var setupOpen = document.querySelector('.setup-open-icon')
 var setupClose = document.querySelector('.setup-close')
+var userNameInput = document.querySelector('.setup-user-name');
 
 const ESC_KEYCODE = 27;
 const ENTER_KEYCODE = 13;
@@ -91,4 +92,14 @@ setupClose.addEventListener('keydown', function(evt){
     if(evt.keyCode === ENTER_KEYCODE){
         closeSetup();
     }
+})
+
+userNameInput.addEventListener('invalid', function(evt){
+    if(userNameInput.valueMissing){
+        userNameInput.setCustomValidity('У каждого уважающего себя волшебника должно быть имя');
+    }else if(userNameInput.validity.tooShort){
+        userNameInput.setCustomValidity('Имя волшебника должно быть длиннее чем 3 символа');
+    } else if(userNameInput.validity.tooLong){
+        userNameInput.setCustomValidity('Слишком длинное имя для волшебника');
+    } 
 })
