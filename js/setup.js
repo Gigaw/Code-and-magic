@@ -33,7 +33,6 @@ for(var i = 0; i < similarWizardsNumber; i++){
 // Создание списка Похожих волшебников на странице
 
 var userDialog = document.querySelector('.setup');
-userDialog.classList.remove('hidden');
 document.querySelector('.setup-similar').classList.remove('hidden')
 var similarListElement = document.querySelector('.setup-similar-list');
 var similarWizardTemplate = document.querySelector('#similar-wizard-template').content.querySelector('.setup-similar-item');
@@ -51,3 +50,45 @@ for(var i = 0; i < similarWizardsNumber; i++){
 
     similarListElement.appendChild(wizardElement);
 }
+
+//ПОЛЬЗОВАТЕЛЬСКОЕ ВЗАИМОДЕЙСТВИЕ С ОКНОМ НАСТРОЕК
+
+var setup = document.querySelector('.setup');
+var setupOpen = document.querySelector('.setup-open-icon')
+var setupClose = document.querySelector('.setup-close')
+
+const ESC_KEYCODE = 27;
+const ENTER_KEYCODE = 13;
+
+var openSetup = function(){
+    setup.classList.remove('hidden');
+    document.addEventListener('keydown', onSetupEscPress);
+}
+
+var closeSetup = function(){
+    setup.classList.add('hidden');
+    document.removeEventListener('keydown', onSetupEscPress);
+}
+
+var onSetupEscPress = function(evt){
+    if(evt.keyCode === ESC_KEYCODE ){
+        closeSetup();
+    }
+}
+
+setupOpen.addEventListener('click', function(){
+    openSetup();
+})
+setupClose.addEventListener('click', function(){
+    closeSetup();
+})
+setupOpen.addEventListener('keydown', function(evt){
+    if(evt.keyCode === ENTER_KEYCODE){
+        openSetup();
+    }
+})
+setupClose.addEventListener('keydown', function(evt){
+    if(evt.keyCode === ENTER_KEYCODE){
+        closeSetup();
+    }
+})
