@@ -1,31 +1,30 @@
 //Генарация массива случайных волшебников
-
 const similarWizardsNumber = 5;
 
 var wizardsNames = ['Иван', 'Хуан Себастьян', 'Мария', 'Кристоф', 'Виктор', 'Юлия', 'Люпита', 'Вашингтон'];
-var wizardsSunames = ['да Марья', 'Верон', 'Мирабелла', 'Вальц', 'Онопко', 'Топольницкая', 'Нионго',  'Ирвинг' ];
+var wizardsSunames = ['да Марья', 'Верон', 'Мирабелла', 'Вальц', 'Онопко', 'Топольницкая', 'Нионго', 'Ирвинг'];
 var wizardsCoats = ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161)', 'rgb(56, 159, 117)', 'rgb(215, 210, 55)', 'rgb(0, 0, 0)'];
-var wizardsEyes = ['black', 'red', 'blue', 'yellow', 'green' ];
+var wizardsEyes = ['black', 'red', 'blue', 'yellow', 'green'];
 
 var wizards = [];
 
 function getRandomInt(max) {
     return Math.floor(Math.random() * Math.floor(max));
-  }
+}
 
-var generateWizard = function(namesArr, surnamesArr, coatsArr, eyesArr){
+var generateWizard = function (namesArr, surnamesArr, coatsArr, eyesArr) {
 
-    var wizardName = namesArr[getRandomInt(namesArr.length)] ;
+    var wizardName = namesArr[getRandomInt(namesArr.length)];
     var wizardSurname = surnamesArr[getRandomInt(surnamesArr.length)];
     var wizardCoat = coatsArr[getRandomInt(coatsArr.length)];
     var wizardEyes = eyesArr[getRandomInt(eyesArr.length)];
 
 
-    return { name: wizardName , surname: wizardSurname, coatColor: wizardCoat , eyesColor: wizardEyes }
+    return { name: wizardName, surname: wizardSurname, coatColor: wizardCoat, eyesColor: wizardEyes }
 }
 
-for(var i = 0; i < similarWizardsNumber; i++){
-    wizard = generateWizard(wizardsNames, wizardsSunames, wizardsCoats, wizardsEyes );
+for (var i = 0; i < similarWizardsNumber; i++) {
+    wizard = generateWizard(wizardsNames, wizardsSunames, wizardsCoats, wizardsEyes);
 
     wizards.push(wizard);
 }
@@ -38,68 +37,109 @@ var similarListElement = document.querySelector('.setup-similar-list');
 var similarWizardTemplate = document.querySelector('#similar-wizard-template').content.querySelector('.setup-similar-item');
 
 
-for(var i = 0; i < similarWizardsNumber; i++){
+for (var i = 0; i < similarWizardsNumber; i++) {
     var wizardElement = similarWizardTemplate.cloneNode(true);
 
     wizardElement.querySelector('.wizard-coat').setAttribute('style', 'fill: ' + wizards[i].coatColor);
     //wizardElement.querySelector('.wizard-coat').setAttribute('style', 'fill:');
     wizardElement.querySelector('.wizard-eyes').setAttribute('style', 'fill: ' + wizards[i].eyesColor);
     //wizardElement.querySelector('.wizard-eyes').setAttribute('style', 'fill: blue');
-    wizardElement.querySelector('.setup-similar-label').textContent = wizards[i].name + ' ' +  wizards[i].surname;
-    
+    wizardElement.querySelector('.setup-similar-label').textContent = wizards[i].name + ' ' + wizards[i].surname;
+
 
     similarListElement.appendChild(wizardElement);
 }
 
 //ПОЛЬЗОВАТЕЛЬСКОЕ ВЗАИМОДЕЙСТВИЕ С ОКНОМ НАСТРОЕК
 
+//Открытие и закрытие окна настроек
+
 var setup = document.querySelector('.setup');
 var setupOpen = document.querySelector('.setup-open-icon')
 var setupClose = document.querySelector('.setup-close')
-var userNameInput = document.querySelector('.setup-user-name');
+
 
 const ESC_KEYCODE = 27;
 const ENTER_KEYCODE = 13;
 
-var openSetup = function(){
+var openSetup = function () {
     setup.classList.remove('hidden');
     document.addEventListener('keydown', onSetupEscPress);
 }
 
-var closeSetup = function(){
+var closeSetup = function () {
     setup.classList.add('hidden');
     document.removeEventListener('keydown', onSetupEscPress);
 }
 
-var onSetupEscPress = function(evt){
-    if(evt.keyCode === ESC_KEYCODE ){
+var onSetupEscPress = function (evt) {
+    if (evt.keyCode === ESC_KEYCODE) {
         closeSetup();
     }
 }
 
-setupOpen.addEventListener('click', function(){
+setupOpen.addEventListener('click', function () {
     openSetup();
 })
-setupClose.addEventListener('click', function(){
+setupClose.addEventListener('click', function () {
     closeSetup();
 })
-setupOpen.addEventListener('keydown', function(evt){
-    if(evt.keyCode === ENTER_KEYCODE){
+setupOpen.addEventListener('keydown', function (evt) {
+    if (evt.keyCode === ENTER_KEYCODE) {
         openSetup();
     }
 })
-setupClose.addEventListener('keydown', function(evt){
-    if(evt.keyCode === ENTER_KEYCODE){
+setupClose.addEventListener('keydown', function (evt) {
+    if (evt.keyCode === ENTER_KEYCODE) {
         closeSetup();
     }
 })
 
-userNameInput.addEventListener('invalid', function(evt){
-    if(userNameInput.valueMissing){
+//Валидация формы
+var userNameInput = document.querySelector('.setup-user-name');
+
+userNameInput.addEventListener('invalid', function (evt) {
+    if (userNameInput.valueMissing) {
         userNameInput.setCustomValidity('У каждого уважающего себя волшебника должно быть имя');
-    }else if(userNameInput.validity.tooShort){
+    } else if (userNameInput.validity.tooShort) {
         userNameInput.setCustomValidity('Имя волшебника должно быть длиннее чем 3 символа');
-    } else if(userNameInput.validity.tooLong){
+    } else if (userNameInput.validity.tooLong) {
         userNameInput.setCustomValidity('Слишком длинное имя для волшебника');
-    } 
+    }
 })
+
+// Кастомизация волшебника;
+
+var fireballColors = ['#ee4830', '#30a8ee', '#5ce6c0', '#e848d5', '#e6e848'];
+
+var playerWizard = document.querySelector('.setup-player');
+var playerCoat = playerWizard.querySelector('.wizard-coat');
+var playerEyes = playerWizard.querySelector('.wizard-eyes');
+var playerFireball = playerWizard.querySelector('.setup-fireball-wrap');
+
+var onPlayerCoatClick = function () {
+    var startColor = wizardsCoats.shift();
+    wizardsCoats.push(startColor);
+
+    playerCoat.setAttribute('style', 'fill: ' + wizardsCoats[0]);
+}
+
+var onPlayerEyesClick = function () {
+    var startColor = wizardsEyes.shift();
+    wizardsEyes.push(startColor);
+
+    playerEyes.setAttribute('style', 'fill: ' + wizardsEyes[0]);
+}
+
+var onPlayerFireballClick = function () {
+    var startColor = fireballColors.shift();
+    fireballColors.push(startColor);
+
+    playerFireball.setAttribute('style', 'background: ' + fireballColors[0]);
+}
+
+playerCoat.addEventListener('click', onPlayerCoatClick);
+playerEyes.addEventListener('click', onPlayerEyesClick);
+playerFireball.addEventListener('click', onPlayerFireballClick);
+
+
