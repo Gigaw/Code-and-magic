@@ -14,7 +14,6 @@
         var startColor = colors.shift();
         colors.push(startColor);
 
-        // console.log(element.nodeName);
         if(element.nodeName == 'DIV'){
             element.setAttribute('style', 'background: ' + colors[0]);
         } else{
